@@ -14,7 +14,8 @@ while True:
     print("5. Calcular y mostrar el promedio de puntos de todo el equipo")
     print("6. Verificar si un jugador es miembro del Salón de la Fama")
     print("7. Calcular al jugador con la mayor cantidad de rebotes totales")
-    print("8. Salir")
+    print("8. Ordenar el listado de manera descendente(el mayor arriba),mostrarlo y permitir guardar ")
+    print("9. Salir")
     opcion = input("Ingrese el número de la opción que desea seleccionar: ")
     if re.match(r'^[1-8]$', opcion):
         opcion = int(opcion)
@@ -41,6 +42,9 @@ while True:
                 jugador_mas_rebotes()
                 break
             case 8:
+                mostrar_bloqueos_totales()
+                break
+            case 9:
                 break
     else:
         print("Opción no válida. Por favor, seleccione una opción válida del menú.")

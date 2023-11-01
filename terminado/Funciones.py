@@ -50,27 +50,34 @@ def indice_y_mostrar_estadisticas():
 #3) Después de mostrar las estadísticas,permite al usuario guardarlas en un archivo CSV.
 def guardar_estadisticas(jugador_seleccionado):
     jugador_seleccionado = indice_y_mostrar_estadisticas()
-    with open("estadicticas_archivo.csv", 'w+' , newline="") as fichero:
-        escribir_fichero= csv.writer(fichero, delimiter=";")  
-        jugador = jugador_seleccionado
-        estadisticas = jugador.estadistica
-        nombre = ["Nombre:", jugador.nombre]
-        posicion = ["Posicion:", jugador.posicion]
-        temporadas = ["Temporadas:",estadisticas.temporadas]
-        puntos_totales = ["Puntos totales:", estadisticas.puntos_totales]
-        promedio_de_puntos = ["promedio de puntos por partido:",estadisticas.promedio_puntos]
-        rebotes_totales = ["rebotes totales:", estadisticas.rebotes_totales]
-        promedio_de_rebotes = ["promedio de rebotes por partido:",estadisticas.promedio_rebotes]
-        asistencias_totales = ["asistencias totales:", estadisticas.asistencias_totales]
-        promedio_asistencias = ["promedio de asistencias por partido:",estadisticas.promedio_asistencias]
-        robos_totales= ["robos totales:", estadisticas.robos_totales]
-        bloqueos_totales=["bloqueos totales:", estadisticas.bloqueos_totales]
-        tiros_de_campo =["porcentaje tiros de campo:", estadisticas.porcentaje_tiros_de_campo]
-        tiros_libres= ["porcentaje tiros libres:", estadisticas.porcentaje_tiros_libres]
-        tiros_triples =["porcentaje tiros triples:", estadisticas.porcentaje_tiros_triples]
-        mensaje = [nombre,posicion,temporadas,puntos_totales,promedio_de_puntos,rebotes_totales,promedio_de_rebotes,asistencias_totales,promedio_asistencias,robos_totales,bloqueos_totales,tiros_de_campo,tiros_libres,tiros_triples]
-        escribir_fichero.writerows(mensaje)
-        print("Archivo \"estadisticas_archivo.csv\" guardado correcatamente")
+    try:
+        with open("estadicticas.csv", 'w+' , newline="") as fichero:
+            escribir_fichero= csv.writer(fichero, delimiter=";")  
+            jugador = jugador_seleccionado
+            estadisticas = jugador.estadistica
+            nombre = ["Nombre:", jugador.nombre]
+            posicion = ["Posicion:", jugador.posicion]
+            temporadas = ["Temporadas:",estadisticas.temporadas]
+            puntos_totales = ["Puntos totales:", estadisticas.puntos_totales]
+            promedio_de_puntos = ["promedio de puntos por partido:",estadisticas.promedio_puntos]
+            rebotes_totales = ["rebotes totales:", estadisticas.rebotes_totales]
+            promedio_de_rebotes = ["promedio de rebotes por partido:",estadisticas.promedio_rebotes]
+            asistencias_totales = ["asistencias totales:", estadisticas.asistencias_totales]
+            promedio_asistencias = ["promedio de asistencias por partido:",estadisticas.promedio_asistencias]
+            robos_totales= ["robos totales:", estadisticas.robos_totales]
+            bloqueos_totales=["bloqueos totales:", estadisticas.bloqueos_totales]
+            tiros_de_campo =["porcentaje tiros de campo:", estadisticas.porcentaje_tiros_de_campo]
+            tiros_libres= ["porcentaje tiros libres:", estadisticas.porcentaje_tiros_libres]
+            tiros_triples =["porcentaje tiros triples:", estadisticas.porcentaje_tiros_triples]
+            mensaje = [nombre,posicion,temporadas,puntos_totales,promedio_de_puntos,rebotes_totales,promedio_de_rebotes,asistencias_totales,promedio_asistencias,robos_totales,bloqueos_totales,tiros_de_campo,tiros_libres,tiros_triples]
+            escribir_fichero.writerows(mensaje)
+            print("Archivo \"estadisticas_archivo.csv\" guardado correcatamente")
+    except FileNotFoundError:
+        print("error el archivo no se encuentra")
+    except PermissionError:
+        print("No tiene permiso de acceder  al archivo")
+    except:
+        print("Error inesperado")
 #guardar_estadisticas(jugador_seleccionado)
 #4) Permitir al usuario buscar un jugador por su nombrey mostrar sus logros
 def buscar_por_nombre(nombre):
@@ -139,7 +146,30 @@ def jugador_mas_rebotes():
     jugadores_rebotes =[]
     for jugador in lista_jugadores:
         estadistica= jugador.estadistica
-        jugadores_rebotes.append((jugador.nombre,jugador.estadistica.rebotes_totales))
+        jugadores_rebotes.append((jugador.nombre,estadistica.rebotes_totales))
     jugadores_rebotes.sort(key=lambda x: x[1],reverse=True)
     print(f"el jugador con mas rebotes es : {jugadores_rebotes[0][0]} con {jugadores_rebotes[0][1]}.")
 #jugador_mas_rebotes()
+jugadores_bloqueos=[]
+def mostrar_bloqueos_totales():
+    for jugador in lista_jugadores:
+        estadisticas = jugador.estadistica
+        jugadores_bloqueos.append((jugador.nombre,estadisticas.bloqueos_totales))
+    jugadores_bloqueos.sort(key=lambda x: x[1],reverse=True)
+    guardar_bloqueos()
+    #print(jugadores_bloqueos)
+def guardar_bloqueos():
+    try:
+        with open("Aguirre.csv", 'w+' , newline="") as fichero:
+            escribir_fichero= csv.writer(fichero, delimiter=";")  
+            mensaje=[("Nombre","bloqueos totales")]
+            for jugador in jugadores_bloqueos:
+                mensaje.append(jugador)
+            escribir_fichero.writerows(mensaje)
+        print("Archivo guardado correctamente")
+    except FileNotFoundError:
+        print("error el archivo no se encuentra")
+    except PermissionError:
+        print("No tiene permiso de acceder  al archivo")
+    except:
+        print("Error inesperado")
